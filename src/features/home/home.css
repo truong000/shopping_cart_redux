@@ -1,0 +1,18 @@
+.Home {
+    padding-bottom: 30px;
+  }
+  
+.Home__items {
+    gap: 35px;
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(3,1fr);
+    padding-top: 20px;
+    
+}
+ 
+ .Item {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+ } 
