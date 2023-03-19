@@ -23,6 +23,7 @@ export function Home() {
                                         image={product.image}
                                         title={product.title}
                                         quantity={product.quantity}
+                                        reviews={product.reviews}
                                     />
                                 ))}
                             </Fragment>

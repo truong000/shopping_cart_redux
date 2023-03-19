@@ -10,8 +10,6 @@ export function ProductDetail() {
     const { id } = useParams()
     const productDetail = useSelector((state: RootState) => state.product.productDetail);
     const dispatch = useDispatch();
-  
-    console.log("product_quantity", productDetail.quantity);
 
     React.useEffect(() => {
         fetch(`https://fakestoreapi.com/products/${id}`)
@@ -36,7 +34,15 @@ export function ProductDetail() {
                     </label>
                 </p>
                 <p>
-                    <button onClick={() => dispatch(addToCart({id: productDetail.id, quantity:productDetail.quantity}))} className="button button1">Add to Cart</button>
+                    <button onClick={() => dispatch(addToCart(
+                        {
+                            id: productDetail.id, 
+                            quantity:productDetail.quantity, 
+                            price: productDetail.price,
+                            image: productDetail.image,
+                        }
+                        ))} className="button button1">Add to Cart
+                    </button>
                 </p>
             </div>
         </section>

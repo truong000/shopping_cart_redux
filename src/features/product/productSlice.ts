@@ -8,6 +8,7 @@ export interface ProductInterface {
     price?: number;
     title?: string;
     quantity: number;
+    reviews: string[];
 }
 
 export interface ProductsInterface {
@@ -25,6 +26,7 @@ const initialState: ProductsInterface = {
         price: 0,
         title: "",
         quantity: 0,
+        reviews: []
     }
 }
 
@@ -40,18 +42,21 @@ export const productSlice = createSlice({
             state.productDetail.quantity = 1;
         },
         decrease: (state) => {
-            if(state.productDetail.quantity > 1){
+            if (state.productDetail.quantity > 1) {
                 state.productDetail.quantity -= 1
             }
         },
         increment: (state) => {
             state.productDetail.quantity += 1
         },
-
+        reviewProduct: (state, action) => {
+            const review = action.payload;
+            state.productDetail.reviews.push(review);
+        },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { getProduct, getProductDetail, decrease , increment} = productSlice.actions
+export const { getProduct, getProductDetail, decrease, increment } = productSlice.actions
 
 export default productSlice.reducer

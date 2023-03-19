@@ -1,30 +1,43 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { ProductInterface } from "./cartSlice";
+import { useDispatch } from "react-redux";
+import { ProductInterface, removeFromCart, updateCartItem } from "./cartSlice";
+import './CartItem.css';
+import { useState } from "react";
 
-export const CartItem: React.FC<ProductInterface> = (productdetailCart): JSX.Element => {
-
-    const { image,price,title, quantity } = productdetailCart
-    return (
-        <div className="ProductCart">
-        <div className="ProductCart__thumbnail">
-            <img className="ProductCart__img" src={image} alt={title} />
-        </div>
-
-        <div className="ProductCart__content">
-            <div className="prodiv">
-                <h2 className="productName">{title}</h2>
-                <span className="productPrice">$:{price}</span>
-                <p className="buttonUpdate">
-                    <label>Quantiy: {quantity}
-                        {/* <button onClick={decrease} className="button button1">-</button>
-                        <button onClick={increment} className="button button1">+</button> */}
-                    </label>
-                    <button>Update</button>
-                </p>
-            </div>
-            <button>Delete</button>   
-        </div>
-    </div>
-    )
+interface CartItemProps {
+  product: ProductInterface
 }
+
+export const CartItem: React.FC<CartItemProps> = ({ product }): JSX.Element => {
+  const [quantity, setQuantity] = useState(product.quantity || 0);
+  const dispatch = useDispatch();
+
+  const handleRemove = () => {
+    dispatch(removeFromCart({ id: product.id }));
+  };
+
+  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuantity = parseInt(event.target.value, 10);
+    dispatch(updateCartItem({ id: product.id, quantity: newQuantity }));
+  };
+
+  return (
+    <div className="cartItem">
+      <img className="cartItem__image" src={product.image} alt='item' />
+
+      <div className="cartItem__info">
+        <p className="cartItem__title">{product.title}</p>
+        <p className="cartItem__price">
+          <small>$</small>
+          <strong>{product.price}</strong>
+        </p>
+        <div className='cartItem__incrDec'>
+          <input type="number" value={product.quantity} onChange={handleQuantityChange} />
+        </div>
+        <button
+          className='cartItem__removeButton'
+          onClick={handleRemove}
+        >Remove</button>
+      </div>
+    </div>
+  );
+};
