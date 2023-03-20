@@ -1,14 +1,12 @@
 import { useDispatch } from "react-redux";
 import { ProductInterface, removeFromCart, updateCartItem } from "./cartSlice";
 import './CartItem.css';
-import { useState } from "react";
 
 interface CartItemProps {
   product: ProductInterface
 }
 
 export const CartItem: React.FC<CartItemProps> = ({ product }): JSX.Element => {
-  const [quantity, setQuantity] = useState(product.quantity || 0);
   const dispatch = useDispatch();
 
   const handleRemove = () => {

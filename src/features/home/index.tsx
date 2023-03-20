@@ -1,8 +1,11 @@
+import React from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { ProductList } from "../product/ProductList";
 import './home.css';
+
+// const ProductList = React.lazy(() => import("../product/ProductList").then(module => ({ default: React.memo(module.ProductList)})));
 
 export function Home() {
     const products = useSelector((state: RootState) => state.product.products)

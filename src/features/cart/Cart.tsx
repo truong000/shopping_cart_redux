@@ -1,12 +1,11 @@
 import {  useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import { CartItem } from "./CartItem";
+// import { CartItem } from "./CartItem";
 import './Cart.css';
 import React from "react";
 import { Total } from "./Total";
 
-
-
+const CartItem = React.lazy(() => import("./CartItem").then(module => ({ default: React.memo(module.CartItem)})));
 
 const Cart: React.FC = (): JSX.Element => {
 
@@ -22,7 +21,7 @@ const Cart: React.FC = (): JSX.Element => {
       {carts.length ? (
         <section className="Cart__content">
           <article className="Cart__products">
-            {carts.map(product => (
+          {carts.map(product => (
               <CartItem
                 key={product.id}
                 product ={product}

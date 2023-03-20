@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ProductInterface {
     id: number;
@@ -8,7 +8,12 @@ export interface ProductInterface {
     price?: number;
     title?: string;
     quantity: number;
-    reviews: string[];
+    reviews: Array<ReviewInterface>;
+}
+
+export interface ReviewInterface{
+    nameCustomer: string;
+    textReview: string;
 }
 
 export interface ProductsInterface {
@@ -26,7 +31,7 @@ const initialState: ProductsInterface = {
         price: 0,
         title: "",
         quantity: 0,
-        reviews: []
+        reviews: [] as Array<ReviewInterface>
     }
 }
 
@@ -40,6 +45,7 @@ export const productSlice = createSlice({
         getProductDetail: (state, action) => {
             state.productDetail = action.payload;
             state.productDetail.quantity = 1;
+            state.productDetail.reviews = [] as Array<ReviewInterface>
         },
         decrease: (state) => {
             if (state.productDetail.quantity > 1) {
@@ -49,14 +55,17 @@ export const productSlice = createSlice({
         increment: (state) => {
             state.productDetail.quantity += 1
         },
-        reviewProduct: (state, action) => {
-            const review = action.payload;
-            state.productDetail.reviews.push(review);
+        reviewProduct: (state, action: PayloadAction<{ nameCustomer: string, textReview: string }>) => {
+            console.log('action_payload', state.productDetail.reviews)
+            state.productDetail.reviews.push({
+                nameCustomer: action.payload.nameCustomer,
+                textReview: action.payload.textReview
+            })
         },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { getProduct, getProductDetail, decrease, increment } = productSlice.actions
+export const { getProduct, getProductDetail, decrease, increment, reviewProduct} = productSlice.actions
 
 export default productSlice.reducer
